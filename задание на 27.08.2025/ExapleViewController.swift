@@ -45,14 +45,20 @@ final class ExapleViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
         return button
     }()
-    @objc private func buttonTapped() {
-       
+    private func random(){
         if Bool.random(){
-            label.text = "<====: ?? :====>"
+            sleep(10)
+            return label.text = "<====: ?? :====>"
         } else {
-            imageView.image = UIImage(named: "Image 1")
+            sleep(10)
+            return imageView.image = UIImage(named: "Image 1")
         }
-       }
+        return
+    }
+    @objc private func buttonTapped() {
+    random()
+    }
+       
     override func viewDidLoad() {
         super.viewDidLoad()
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
