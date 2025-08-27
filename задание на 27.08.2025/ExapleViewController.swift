@@ -25,37 +25,69 @@ final class ExapleViewController: UIViewController {
         return label
     }()
     
-    private let question: UILabel = {
+    private let label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.textColor = .white
-        label.text = "Рейтинг этого фильма меньше чем 5? "
+        label.textColor = .black
+        label.text = ""
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.numberOfLines = 0
         return label
     }()
+    
     private let button: UIButton = {
         let button = UIButton(type:  .system)
-        button.setTitle("Нет", for: .normal)
-        button.backgroundColor = .ypWhite
+        button.setTitle("button", for: .normal)
+        button.backgroundColor = .white
         button.layer.cornerRadius = 15
-        button.tintColor = .ypBlack
+        button.tintColor = .black
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
         return button
     }()
-    
+    private func random2() -> String {
+        sleep(10)
+        
+        if Bool.random() {
+            let d = "Hello, world!"
+            return d
+        } else {
+            return "Image"
+        }
+    }
+    @objc private func buttonTapped() {
+        DispatchQueue.global().async {
+            let result = self.random2()
+            DispatchQueue.main.async {
+                if result == "Image" {
+                    self.imageView.image = UIImage(named: "Image 1")
+                    self.label.text = ""
+                } else {
+                    self.label.text = result
+                    self.imageView.image = nil
+                }
+            }
+        }
+    }
+       
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .black
-        [button, imageView, question,].forEach {
+        button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        [button, imageView, label].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
+        
         }
         
         NSLayoutConstraint.activate([
             button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            button.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
+            imageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 25),
+            imageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
+            imageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -200),
+            label.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 100),
         ])
     }
 }
