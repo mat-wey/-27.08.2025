@@ -45,18 +45,29 @@ final class ExapleViewController: UIViewController {
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .medium)
         return button
     }()
-    private func random(){
-        if Bool.random(){
-            sleep(10)
-            return label.text = "<====: ?? :====>"
+    private func random2() -> String {
+        sleep(10)
+        
+        if Bool.random() {
+            let d = "Hello, world!"
+            return d
         } else {
-            sleep(10)
-            return imageView.image = UIImage(named: "Image 1")
+            return "Image"
         }
-        return
     }
     @objc private func buttonTapped() {
-    random()
+        DispatchQueue.global().async {
+            let result = self.random2()
+            DispatchQueue.main.async {
+                if result == "Image" {
+                    self.imageView.image = UIImage(named: "Image 1")
+                    self.label.text = ""
+                } else {
+                    self.label.text = result
+                    self.imageView.image = nil
+                }
+            }
+        }
     }
        
     override func viewDidLoad() {
